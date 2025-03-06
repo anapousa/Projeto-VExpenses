@@ -240,7 +240,7 @@ Os pré-requisitos para execução do código no Terraform são:
 
 #### Reorganização dos Arquivos
 
-A primeira mudança ocorreu na divisão do código para que ele esteja estruturado de maneira mais clara e concisa. As mudanças foram:
+O primeiro passo foi reorganizar a divisão do código para que ele esteja estruturado de maneira mais clara e concisa. As mudanças foram:
 
 - Criação do arquivo `variables.tf`, que armazena todas as variáveis do código.
 - Criação do arquivo `providers.tf`, para guardar informações referente ao provedor.
