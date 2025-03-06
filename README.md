@@ -9,6 +9,8 @@ provider "aws" {
   region = "us-east-1"
 }
 ```
+---
+
 ### Geração de Chave Privada
 Gera uma chave privada segura e a codifica nos formatos PEM e OpenSSH. Este recurso é destinado principalmente para bootstrapping fácil de ambientes de desenvolvimento descartáveis.
 
@@ -25,6 +27,8 @@ resource "tls_private_key" "ec2_key" {
 
 - `rsa_bits`: Quando `algorithm` é `RSA`, define o tamanho da chave RSA gerada, em bits.  
   - Padrão: `2048`.
+
+---
 
 ### VPC (Virtual Private Cloud)
 Cria uma VPC para organizar os recursos da infraestrutura.
@@ -62,10 +66,10 @@ resource "aws_subnet" "main_subnet" {
 }
 ```
 
-
 ---
 
-## Gateway de Internet
+### Gateway de Internet
+Cria um Internet Gateway para permitir comunicação da VPC com a Internet.
 
 ```hcl
 resource "aws_internet_gateway" "main_igw" {
@@ -77,11 +81,10 @@ resource "aws_internet_gateway" "main_igw" {
 }
 ```
 
-Cria um Internet Gateway para permitir comunicação da VPC com a Internet.
-
 ---
 
-## Tabela de Roteamento
+### Tabela de Roteamento
+Cria uma tabela de roteamento associada à VPC.
 
 ```hcl
 resource "aws_route_table" "main_route_table" {
@@ -98,11 +101,10 @@ resource "aws_route_table" "main_route_table" {
 }
 ```
 
-Cria uma tabela de roteamento associada à VPC.
-
 ---
 
-## Associação da Tabela de Rotas
+### Associação da Tabela de Rotas
+Associa a tabela de rotas à sub-rede para permitir o tráfego adequado.
 
 ```hcl
 resource "aws_route_table_association" "main_association" {
@@ -115,11 +117,11 @@ resource "aws_route_table_association" "main_association" {
 }
 ```
 
-Associa a tabela de rotas à sub-rede para permitir o tráfego adequado.
-
 ---
 
-## Grupo de Segurança
+### Grupo de Segurança
+Cria um grupo de segurança para controlar tráfego de entrada e saída.
+Na configuração atual, permite conexão de qualquer IP.
 
 ```hcl
 resource "aws_security_group" "main_sg" {
@@ -149,11 +151,10 @@ resource "aws_security_group" "main_sg" {
 }
 ```
 
-Cria um grupo de segurança para controlar tráfego de entrada e saída.
-
 ---
 
-## Seleção de AMI (Imagem de Máquina)
+### Seleção de AMI (Imagem de Máquina)
+Busca a AMI mais recente do Debian 12.
 
 ```hcl
 data "aws_ami" "debian12" {
@@ -173,11 +174,10 @@ data "aws_ami" "debian12" {
 }
 ```
 
-Busca a AMI mais recente do Debian 12.
-
 ---
 
-## Instância EC2
+### Instância EC2
+Cria uma instância EC2 Debian 12.
 
 ```hcl
 resource "aws_instance" "debian_ec2" {
@@ -207,12 +207,10 @@ resource "aws_instance" "debian_ec2" {
 }
 ```
 
-Cria uma instância EC2 Debian 12.
-
 ---
 
-## Saídas
-
+### Saídas
+Captura os valores da chave privada e do endereço de IP público da instância EC2.
 ```hcl
 output "private_key" {
   description = "Chave privada para acessar a instância EC2"
@@ -226,4 +224,4 @@ output "ec2_public_ip" {
 }
 ```
 
-Define a chave privada e o endereço IP público da instância EC2.
+
