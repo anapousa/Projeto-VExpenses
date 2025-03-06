@@ -1,7 +1,8 @@
 # Projeto-VExpenses
-# Código-Modelo: Provedor AWS
+## Descrição técnica sobre o código modelo
 
-## Provedor AWS
+### Provedor AWS
+Define a região onde os recursos serão criados na AWS.
 
 ```hcl
 provider "aws" {
