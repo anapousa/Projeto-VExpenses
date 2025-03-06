@@ -224,4 +224,67 @@ output "ec2_public_ip" {
 }
 ```
 
+##Relatório de Correções e Mudanças Implementadas no Arquivo main.tf
 
+### Pré-requisitos para Execução
+
+Os pré-requisitos para execução do código no Terraform são:
+
+- Ter uma conta na AWS.
+- Ter configurado o AWS CLI.
+- Ter acesso ao AMI Debian 12 via AWS Marketplace para conseguir vincular a imagem à instância. 
+
+**Obs:** Caso não tenha, a criação da instância irá retornar um erro durante a execução do comando `Terraform Apply`.
+
+### Reestruturação do Código
+
+#### Reorganização dos Arquivos
+
+A primeira mudança ocorreu na divisão do código para que ele esteja estruturado de maneira mais clara e concisa. As mudanças foram:
+
+- Criação do arquivo `variables.tf`, que armazena todas as variáveis do código.
+- Criação do arquivo `providers.tf`, para guardar informações referente ao provedor.
+- Criação do arquivo `network.tf`, onde foi adicionado o código de criação de recursos de rede (VPC, Subnet, IGW, Route Table, SG).
+- Criação do arquivo `key.tf`, na qual foram armazenadas as configurações referentes à chave.
+- Criação do arquivo `ec2.tf`, contendo as configurações referentes à instância EC2.
+- Criação do arquivo `outputs.tf`, para armazenar os códigos de saída.
+
+#### Mudanças
+
+A primeira mudança foi em relação ao armazenamento das chaves. Para habilitar acesso seguro aos recursos da AWS, foi gerado um par de chaves SSH. Este par de chaves será usado para acessar a instância EC2 com segurança.
+
+```hcl
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "local_file" "private_key" {
+  content  = tls_private_key.ssh_key.private_key_pem
+  filename = "${var.projeto}-${var.candidato}-key.pem"
+}
+
+resource "local_file" "public_key" {
+  content  = tls_private_key.ssh_key.public_key_openssh
+  filename = "terraform_rsa.pub"
+}
+```
+
+Em seguida, foi gerado um par de chaves AWS usando a chave SSH pública. Este recurso carrega a chave pública para a AWS, permitindo acessar com segurança a instância do EC2 usando a chave privada correspondente.
+
+Como medida de segurança, o acesso ao ssh, porta 22, foi configurado para ser liberado apenas para o IP do computador usado para realizar este desafio, ao invés de ter acesso público. No contexto da empresa, uma medida de segurança eficaz é manter o acesso à instância liberado somente para usuários (IP’s) específicos. 
+
+Outra medida tomada foi a mudança no trecho de código `security_groups = [aws_security_group.main_sg.name]` para `vpc_security_group_ids = [aws_security_group.main_sg.id]`, pois vpc_security_group_ids permite utilizar o ID do grupo de segurança, que é único dentro da conta AWS e também uma prática melhor recomendada pela AWS. 
+
+Além disso, foi adicionado o seguinte trecho de código:
+
+```hcl
+  depends_on = [
+        aws_security_group.main_sg,
+        aws_internet_gateway.main_igw
+  ]
+```
+
+O atributo depends_on garante que a criação da instância aguarde até que o grupo de segurança e o gateway de internet estejam configurados corretamente, garantindo que a instância possa se comunicar corretamente com a internet.
+
+Por fim, o output “private_key” foi removido para evitar a visualização forçada do conteúdo da chave.
