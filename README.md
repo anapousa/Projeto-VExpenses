@@ -286,9 +286,9 @@ Além disso, foi adicionado o seguinte trecho de código:
 
 ```
 
-O atributo depends_on garante que a criação da instância aguarde até que o grupo de segurança e o gateway de internet estejam configurados corretamente, garantindo que a instância possa se comunicar corretamente com a internet.
+O atributo `depends_on` garante que a criação da instância aguarde até que o grupo de segurança e o gateway de internet estejam configurados corretamente, garantindo que a instância possa se comunicar corretamente com a internet.
 
-Por fim, o output “private_key” foi removido para evitar a visualização forçada do conteúdo da chave.
+Por fim, o `output “private_key”` foi removido para evitar a visualização forçada do conteúdo da chave.
 
 #### Instalação do Servidor NGINX 
 Os comandos abaixo foram utilizados para instalação do servidor NGINX.
@@ -302,7 +302,7 @@ systemctl enable nginx
 EOF
 ```
 
-Como o script user_data é executado como root, sudo não é necessário.
+Como o script user_data é executado como root, `sudo` não é necessário.
 
 ## Execução
 Segue abaixo os comandos que devem ser executados para criar a instância EC2 e instalar o servidor Nginx com os devidos recursos.
@@ -311,6 +311,6 @@ terraform init
 terraform plan
 terraform apply
 ```
-Após a execução desses três comandos, o comando chmod 400 “nome_da_chave_privada” deve ser executado para garantir que a chave não fique visível publicamente. Por fim, deve ser executado o comando exibido no console pela AWS para conectar à instância por meio do SSH. 
+Após a execução desses três comandos, o comando `chmod 400 “nome_da_chave_privada”` deve ser executado para garantir que a chave não fique visível publicamente. Por fim, deve ser executado o comando exibido no console pela AWS para conectar à instância por meio do SSH. 
 
 Para encerrar todos os recursos, deve ser utilizado o comando `terraform destroy`.
