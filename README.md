@@ -311,6 +311,6 @@ terraform init
 terraform plan
 terraform apply
 ```
-Após a execução desses três comandos, o comando `chmod 400 “nome_da_chave_privada”` deve ser executado para garantir que a chave não fique visível publicamente. Por fim, deve ser executado o comando exibido no console pela AWS para conectar à instância por meio do SSH. 
+Após a execução desses três comandos, o comando `chmod 400 nome_da_chave_privada` deve ser executado para garantir que a chave não fique visível publicamente. Por fim, deve ser executado o comando exibido no console pela AWS para conectar à instância por meio do SSH. 
 
 Para encerrar todos os recursos, deve ser utilizado o comando `terraform destroy`.
