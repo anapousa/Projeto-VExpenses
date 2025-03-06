@@ -245,7 +245,7 @@ O primeiro passo foi reorganizar a divisão do código para que ele esteja estru
 - Criação do arquivo `variables.tf`, que armazena todas as variáveis do código.
 - Criação do arquivo `providers.tf`, para guardar informações referente ao provedor.
 - Criação do arquivo `network.tf`, onde foi adicionado o código de criação de recursos de rede (VPC, Subnet, IGW, Route Table, SG).
-- Criação do arquivo `key.tf`, na qual foram armazenadas as configurações referentes à chave.
+- Criação do arquivo `keyfiles.tf`, na qual foram armazenadas as configurações referentes à chave.
 - Criação do arquivo `ec2.tf`, contendo as configurações referentes à instância EC2.
 - Criação do arquivo `outputs.tf`, para armazenar os códigos de saída.
 
